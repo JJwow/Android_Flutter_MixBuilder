@@ -1,0 +1,14 @@
+include ':app'
+rootProject.name='myAndroid'
+include ':app'
+// 加入下面配置
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+        settingsDir.parentFile,
+        'my_flutter/.android/include_flutter.groovy'
+)) 
+include ':my_flutter'
+project(':my_flutter').projectDir = new File('../my_flutter')
+
+include ':my_flutter'
+project(':my_flutter').projectDir = new File('../my_flutter')
