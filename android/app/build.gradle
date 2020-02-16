@@ -12,6 +12,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        //使用aar调用的配置
+//        profile {
+//            initWith debug
+//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -22,12 +26,31 @@ android {
         targetCompatibility 1.8
     }
 }
+repositories{
+    //使用aar调用的配置
+//    maven {
+//        url '/Users/admin/Desktop/Android_Flutter_MixBuilder/my_flutter/build/host/outputs/repo'
+//    }
+//    maven {
+//        url 'http://download.flutter.io'
+//    }
 
+    flatDir{
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //使用工程引入的配置
     implementation project(':flutter')
+
+    //使用aar调用的配置
+//    debugImplementation 'com.example.my_flutter:flutter_debug:1.0'
+//    profileImplementation 'com.example.my_flutter:flutter_profile:1.0'
+//    releaseImplementation 'com.example.my_flutter:flutter_release:1.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
