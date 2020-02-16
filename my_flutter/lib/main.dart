@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'secondFlutter.dart';
 
 void main() => runApp(_widgetForRoute(window.defaultRouteName));
 Widget _widgetForRoute(String url) {
@@ -52,6 +53,13 @@ class _ContentWidgetState extends State<ContentWidget>{
           onDataChange(call.arguments['message']);
           print('1234'+call.arguments['message']);
           break;
+        case 'backAction':
+          if (Navigator.canPop(context)) {
+            Navigator.of(context).pop();
+          } else {
+            nativeChannel.invokeMethod('backAction');
+          }
+          break;
       }
     }
     flutterChannel.setMethodCallHandler(handler);
@@ -69,7 +77,7 @@ class _ContentWidgetState extends State<ContentWidget>{
             child: Text(widget.message,textAlign: TextAlign.center,),
           ),
           Positioned(
-            top: 300,
+            top: 200,
             left: 100,
             right: 100,
             height: 100,
@@ -81,7 +89,7 @@ class _ContentWidgetState extends State<ContentWidget>{
             ),
           ),
           Positioned(
-            top: 430,
+            top: 330,
             left: 100,
             right: 100,
             height: 100,
@@ -91,6 +99,23 @@ class _ContentWidgetState extends State<ContentWidget>{
                   openNextNativePage(nativeChannel);
                 }
             ),
+          ),
+          Positioned(
+            top: 460,
+            left: 100,
+            right: 100,
+            height: 100,
+            child: RaisedButton(
+                child: Text('打开下一个Flutter页面'),
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SecondFlutterWidget(),
+                    ),
+                  );
+                }
+            ),
           )
         ],
       ),
@@ -98,7 +123,7 @@ class _ContentWidgetState extends State<ContentWidget>{
     );
   }
 }
-Future<Null> returnLastNativePage(MethodChannel channel) async{
+Future<String> returnLastNativePage(MethodChannel channel) async{
   //参数
 //  const channel = const MethodChannel('com.example.flutter/native');
 //  static const flutterChannel = const MethodChannel('com.example.flutter/flutter');
@@ -106,7 +131,7 @@ Future<Null> returnLastNativePage(MethodChannel channel) async{
   final String result = await channel.invokeMethod('backFirstNative',para);
   print('这是在flutter中打印的'+ result);
 }
-Future<Null> openNextNativePage(MethodChannel channel) async{
+Future<String> openNextNativePage(MethodChannel channel) async{
   //参数
 //  const channel = const MethodChannel('com.example.flutter/native');
   Map<String, dynamic> para = {'message':'嗨，本文案来自Flutter页面，打开第二个原生页面将看到我'};

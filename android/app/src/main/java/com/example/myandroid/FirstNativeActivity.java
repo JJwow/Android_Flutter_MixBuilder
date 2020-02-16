@@ -33,4 +33,6 @@ public class FirstNativeActivity extends AppCompatActivity {
             textView.setText(data.getStringExtra("message"));
         }
     }
+
+
 }

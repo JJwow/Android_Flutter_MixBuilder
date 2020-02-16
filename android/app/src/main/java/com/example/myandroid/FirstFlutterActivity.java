@@ -63,6 +63,10 @@ public class FirstFlutterActivity extends AppCompatActivity {
                         finish();
                         result.success("成功返回第一个原生页面");
                         break;
+                    case "backAction":
+                        finish();
+                        result.success("成功通过虚拟按键返回第一个原生页面");
+                        break;
                     default :
                         result.notImplemented();
                         break;
@@ -91,5 +95,10 @@ public class FirstFlutterActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
+        flutterChannel.invokeMethod("backAction", null);
     }
 }
